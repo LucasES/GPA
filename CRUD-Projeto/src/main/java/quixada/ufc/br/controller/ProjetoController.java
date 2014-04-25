@@ -1,10 +1,5 @@
 package quixada.ufc.br.controller;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -44,8 +39,10 @@ public class ProjetoController {
 	@RequestMapping(value = "/projetos/new", method = RequestMethod.POST)
 	public String adicionarProjeto(@Valid Projeto projeto, BindingResult result, SessionStatus status, HttpServletRequest request ){
 		
-		String data = request.getParameter("nome");
-		System.out.println(data);
+		String stringData = request.getParameter("inicio");
+		System.out.println(stringData);
+		projeto.setStatus("NOVO");
+		
 		System.out.println(projeto.toString());
 		log.info("controller: projeto - action: AdicionarProjetos");
 		if(result.hasErrors()){

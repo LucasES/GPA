@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Projeto {
 
@@ -22,8 +24,10 @@ public class Projeto {
 	private String nome;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date inicio;
 	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date termino;
 	private String descricao;
 	private String atividades;
