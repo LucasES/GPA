@@ -1,5 +1,7 @@
 package quixada.ufc.br.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -21,48 +23,47 @@ public class ProjetoController {
 
 	@Inject
 	private ProjetoService pc;
-	
+
 	private Logger log = LoggerFactory.getLogger(this.getClass());
-	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String index(){
+
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public String index() {
 		log.info("controller: projeto - action: index");
 		return "index";
 	}
-	
+
 	@RequestMapping("/cadastro")
-	public ModelAndView cadastro(){
+	public ModelAndView cadastro() {
 		return new ModelAndView("cadastro");
 	}
-	
-	
+
 	@RequestMapping(value = "/projetos/new", method = RequestMethod.POST)
-	public String adicionarProjeto(@Valid Projeto projeto, BindingResult result, SessionStatus status, HttpServletRequest request ){
-		
+	public String adicionarProjeto(@Valid Projeto projeto,
+			BindingResult result, SessionStatus status,
+			HttpServletRequest request) {
+
 		String stringData = request.getParameter("inicio");
 		System.out.println(stringData);
 		projeto.setStatus("NOVO");
-		
+
 		System.out.println(projeto.toString());
 		log.info("controller: projeto - action: AdicionarProjetos");
-		if(result.hasErrors()){
+		if (result.hasErrors()) {
 			return "index";
-		}else{
+		} else {
 			this.pc.salvar(projeto);
 			status.setComplete();
 			return "confirmacao";
 		}
 	}
-	
 
-//	@RequestMapping(value="/projetos/list")  
-//    public ModelAndView listOfTeams() {  
-//        ModelAndView modelAndView = new ModelAndView("list-of-teams");  
-//          
-//        List<Projeto> projeto = pc.findAll();  
-//        modelAndView.addObject("projetos", projeto);  
-//          
-//        return modelAndView;  
-//    } 
-	
+	@RequestMapping(value = "/listar")
+	public ModelAndView listOfProjects() {
+		ModelAndView modelAndView = new ModelAndView("listar");
+		System.out.println("Controller Listagem");
+		List<Projeto> projetos = pc.findAll();
+		modelAndView.addObject("projetos", projetos);
+		return modelAndView;
+	}
+
 }
